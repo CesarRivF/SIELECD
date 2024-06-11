@@ -4,6 +4,7 @@ import { prisma } from "../db.js";
 const router = Router();
 
 //Ruta//
+
 router.get("/", async (req, res) => {
   const categories = await prisma.categoria.findMany();
   res.json(categories);
