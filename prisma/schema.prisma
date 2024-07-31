@@ -27,14 +27,13 @@ model Producto_Cotizacion {
 // MODELO COTIZACION (4) //
 model Cotizacion {
   id                  Int                   @id @default(autoincrement())
-  fecha_creacion      DateTime              @default(now())
-  dias_cotizacion     Int
+  fechaCreacion      DateTime              @default(now())
+  diasCotizacion     Int
   clienteId           Int
   cliente             Cliente               @relation(fields: [clienteId], references: [id])
   productos           Producto_Cotizacion[]
   total               Float?
-  lugar_de_entrega    String
-  tiempo_de_ejecucion Int?
+  lugarDeEntrega    String
 }
 
 // MODELO CLIENTE (3) //

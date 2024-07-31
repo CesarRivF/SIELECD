@@ -6,7 +6,7 @@ const router = Router();
 //----------------Ruta Clientes------------------//
 
 //Peticiones//
-//Trae todas las peticiones juntas//
+//Trae todas los clientes juntas//
 router.get("/", async (req, res) => {
   const clients = await prisma.cliente.findMany();
   res.json(clients);
@@ -79,6 +79,7 @@ router.put("/:id", async (req, res) => {
     });
     return res.json(clientUpdate);
   } catch (error) {
+    console.log(error);
     if (error.code == "P2025") {
       res
         .status(409)
