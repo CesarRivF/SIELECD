@@ -23,8 +23,6 @@ router.get("/:id", async (req, res) => {
     // }
   });
 
-  console.log("productoPrisma", cliente);
-
   if (!cliente) {
     return res.status(404).json({ error: "Cliente no encontrado" });
   }
@@ -33,7 +31,6 @@ router.get("/:id", async (req, res) => {
 
 //Crear una nueva peticion//
 router.post("/", async (req, res) => {
-  // console.log("request:", req.body)
   const body = req.body;
   try {
     const newClient = await prisma.cliente.create({
@@ -79,7 +76,6 @@ router.put("/:id", async (req, res) => {
     });
     return res.json(clientUpdate);
   } catch (error) {
-    console.log(error);
     if (error.code == "P2025") {
       res
         .status(409)

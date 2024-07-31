@@ -26,8 +26,6 @@ router.get("/:id", async (req, res) => {
     },
   });
 
-  console.log("productoPrisma", producto);
-
   if (!producto) {
     return res.status(404).json({ error: "Producto no encontrado" });
   }
@@ -36,7 +34,6 @@ router.get("/:id", async (req, res) => {
 
 //Crear una nueva peticion//
 router.post("/", async (req, res) => {
-  // console.log("request:", req.body)
   const body = await crearActualizaCategoria(req.body);
   try {
     const newProduct = await prisma.producto.create({
@@ -44,7 +41,6 @@ router.post("/", async (req, res) => {
     });
     res.json(newProduct);
   } catch (error) {
-    console.log(error);
     if (error.code == "P2003") {
       res
         .status(409)
@@ -79,7 +75,6 @@ router.delete("/:id", async (req, res) => {
     });
     return res.json(productDeleted);
   } catch (error) {
-    console.log(error);
     if (error.code == "P2025") {
       res
         .status(409)
@@ -101,7 +96,6 @@ router.put("/:id", async (req, res) => {
     });
     return res.json(productUpdate);
   } catch (error) {
-    console.log(error);
     if (error.code == "P2025") {
       res
         .status(409)

@@ -1,7 +1,6 @@
 import PDFDocument from "pdfkit-table";
 
 export async function buildTable(datosCotizacion, dataCallback, endCallback) {
-  console.log(datosCotizacion);
   let doc = new PDFDocument({ margin: 30, size: "A4" });
 
   doc.on("data", dataCallback);

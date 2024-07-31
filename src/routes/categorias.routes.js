@@ -23,7 +23,6 @@ router.get("/:categoriaId", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  // console.log("request:", req.body)
   const body = req.body;
 
   const newProduct = await prisma.categoria.create({

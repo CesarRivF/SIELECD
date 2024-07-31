@@ -36,7 +36,6 @@ router.get("/obtenerUltimoFolio", async (req, res) => {
     },
     take: 1,
   });
-  console.log(cotizacion);
   if (cotizacion == undefined) {
     res.send({
       ultimoFolio: 0,
@@ -77,6 +76,24 @@ router.get("/:cotizacionId", async (req, res) => {
     res.json(cotizacion);
   } catch {
     res.send("Error al obtener la cotizacion");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const cotizacionEliminada = await prisma.cotizacion.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    return res.json(cotizacionEliminada);
+  } catch (error) {
+    console.log(error);
+    if (error.code == "P2003") {
+      res
+        .status(409)
+        .send("La cotizacion con el id " + req.params.id + " no existe.");
+    }
   }
 });
 

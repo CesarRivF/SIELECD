@@ -17,9 +17,9 @@ datasource db {
 model Producto_Cotizacion {
   id           Int        @id @default(autoincrement())
   cotizacionId Int
-  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id])
-  productoId   Int
-  producto     Producto   @relation(fields: [productoId], references: [id])
+  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productoId   Int?
+  producto     Producto?   @relation(fields: [productoId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   cantidad     Int
   total        Float?
 }
