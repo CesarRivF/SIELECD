@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
+    "build": "npx prisma migrate deploy",
     "start": "node src/index.js"
   },
   "keywords": [],
