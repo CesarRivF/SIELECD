@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import morgan from "morgan";
 import categoriasRoutes from "./routes/categorias.routes.js";
 import productosRoutes from "./routes/productos.routes.js";
 import clientesRoutes from "./routes/clientes.routes.js";
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/productos", productosRoutes);
