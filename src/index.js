@@ -9,10 +9,13 @@ import productoCotizacionesRoutes from "./routes/productos_cotizaciones.routes.j
 import { FRONTEND_URL } from "./config.js";
 const app = express();
 
+import healthcheck from "./healthcheck.js";
+
 app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/api/healthcheck", healthcheck);
 app.use("/api/categorias", categoriasRoutes);
 app.use("/api/productos", productosRoutes);
 app.use("/api/clientes", clientesRoutes);
