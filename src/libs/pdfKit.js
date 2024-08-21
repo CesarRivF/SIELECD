@@ -1,4 +1,5 @@
 import PDFDocument from "pdfkit-table";
+import { fetchImage } from "../utils.js";
 
 export async function buildTable(datosCotizacion, dataCallback, endCallback) {
   let doc = new PDFDocument({ margin: 30, size: "A4" });
@@ -37,6 +38,15 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
   };
   // A4 595.28 x 841.89 (portrait) (about width sizes)
   // or columnsSize
+  const logo = await fetchImage("https://i.postimg.cc/bw9MH6jM/sielecd.jpg");
+
+  doc.image(logo, {
+    fit: [250, 300],
+    align: "center",
+  });
+
+  doc.y = 125;
+
   doc.text("Dias de vigencia: " + datosCotizacion.diasCotizacion);
   doc.text(
     "Fecha de creación: " + datosCotizacion.fechaCreacion.toLocaleDateString()
@@ -47,6 +57,7 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
       doc.font("Helvetica-Bold").fontSize(12);
     },
   });
+
   const dataProductos = datosCotizacion.productos.map((producto) => {
     const data = {
       qty: producto.cantidad,
