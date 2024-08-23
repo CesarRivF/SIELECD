@@ -49,7 +49,12 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
 
   doc.text("Dias de vigencia: " + datosCotizacion.diasCotizacion);
   doc.text(
-    "Fecha de creación: " + datosCotizacion.fechaCreacion.toLocaleDateString()
+    "Fecha de creación: " +
+      datosCotizacion.fechaCreacion.toLocaleString("es-ES", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
   );
   await doc.table(tableClient, {
     columnsSize: [265, 265],
@@ -61,18 +66,14 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
   const dataProductos = datosCotizacion.productos.map((producto) => {
     const data = {
       qty: producto.cantidad,
-      description: producto.producto.descripcion,
-      unit: producto.producto.unidad,
-      price: producto.producto.precio_unitario,
-      price2: producto.cantidad * producto.producto.precio_unitario,
+      description: producto.descripcion,
+      unit: producto.unidad,
+      price: producto.precio_unitario,
+      price2: producto.cantidad * producto.precio_unitario,
     };
     return data;
   });
-  const total = datosCotizacion.productos.reduce(
-    (acc, producto) =>
-      acc + producto.cantidad * producto.producto.precio_unitario,
-    0
-  );
+  const total = datosCotizacion.total;
   const totales = [
     {
       key: "subtotal",
