@@ -48,9 +48,12 @@ router.get("/obtenerUltimoFolio", async (req, res) => {
 });
 
 router.get("/descargar/:cotizacionId", async (req, res) => {
-  const datosCotizacion = await obtenerDatosCotizacion(
+  let datosCotizacion = await obtenerDatosCotizacion(
     parseInt(req.params.cotizacionId)
   );
+  if (!datosCotizacion.total) {
+    datosCotizacion = await actualizarTotalDeCotizacion(datosCotizacion);
+  }
   const stream = res.writeHead(200, {
     "Content-Type": "application/pdf",
     "Content-Disposition":
@@ -66,6 +69,19 @@ router.get("/descargar/:cotizacionId", async (req, res) => {
     (data) => stream.write(data),
     () => stream.end()
   );
+});
+
+router.get("/actualizarTotal/:cotizacionId", async (req, res) => {
+  try {
+    const cotizacion = await obtenerDatosCotizacion(
+      parseInt(req.params.cotizacionId)
+    );
+    const cotizacionActualizada = await actualizarTotalDeCotizacion(cotizacion);
+    res.json(cotizacionActualizada);
+  } catch (error) {
+    console.log(error);
+    res.send("Error inesperado");
+  }
 });
 
 router.get("/:cotizacionId", async (req, res) => {
@@ -104,12 +120,26 @@ const obtenerDatosCotizacion = async (cotizacionId) => {
     },
     include: {
       cliente: true,
-      productos: {
-        select: {
-          cantidad: true,
-          producto: true,
-        },
-      },
+      productos: true,
+    },
+  });
+};
+
+const actualizarTotalDeCotizacion = async (cotizacion) => {
+  const total = cotizacion.productos.reduce(
+    (acc, producto) => acc + producto.importe,
+    0
+  );
+  return await prisma.cotizacion.update({
+    where: {
+      id: cotizacion.id,
+    },
+    data: {
+      total: total,
+    },
+    include: {
+      cliente: true,
+      productos: true,
     },
   });
 };

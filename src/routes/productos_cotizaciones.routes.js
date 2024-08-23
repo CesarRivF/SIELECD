@@ -11,6 +11,7 @@ router.post("/", async (req, res) => {
     });
     res.json(productoCotizacion);
   } catch (error) {
+    console.log(error);
     if (error.code == "P2003") {
       res.status(409).send("verifique que el producto y cotizacion exista");
     }

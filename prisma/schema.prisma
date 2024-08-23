@@ -15,25 +15,28 @@ datasource db {
 
 // MODELO PRODUCTO_COTIZACION (5) //
 model Producto_Cotizacion {
-  id           Int        @id @default(autoincrement())
-  cotizacionId Int
-  cotizacion   Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  productoId   Int?
-  producto     Producto?   @relation(fields: [productoId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  cantidad     Int
-  total        Float?
+  id              Int        @id @default(autoincrement())
+  cotizacionId    Int
+  cotizacion      Cotizacion @relation(fields: [cotizacionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productoId      Int?
+  producto        Producto?  @relation(fields: [productoId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  cantidad        Int
+  descripcion     String
+  unidad          String
+  precio_unitario Float
+  importe         Float
 }
 
 // MODELO COTIZACION (4) //
 model Cotizacion {
-  id                  Int                   @id @default(autoincrement())
-  fechaCreacion      DateTime              @default(now())
-  diasCotizacion     Int
-  clienteId           Int
-  cliente             Cliente               @relation(fields: [clienteId], references: [id])
-  productos           Producto_Cotizacion[]
-  total               Float?
-  lugarDeEntrega    String
+  id             Int                   @id @default(autoincrement())
+  fechaCreacion  DateTime              @default(now())
+  diasCotizacion Int
+  clienteId      Int
+  cliente        Cliente               @relation(fields: [clienteId], references: [id])
+  productos      Producto_Cotizacion[]
+  total          Float?
+  lugarDeEntrega String
 }
 
 // MODELO CLIENTE (3) //
@@ -55,7 +58,7 @@ model Producto {
   precio_unitario     Float
   modelo              String?
   categoria_Id        Int
-  categoria           Categoria              @relation(fields: [categoria_Id], references: [id])
+  categoria           Categoria             @relation(fields: [categoria_Id], references: [id])
   productosCotizacion Producto_Cotizacion[]
 }
 
