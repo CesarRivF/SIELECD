@@ -57,11 +57,8 @@ router.delete("/:id", async (req, res) => {
     });
     return res.json(clientDeleted);
   } catch (error) {
-    if (error.code == "P2025") {
-      res
-        .status(409)
-        .send("El cliente con el id " + req.params.id + " no existe.");
-    }
+    console.log(error);
+    res.status(409).send("No se pudo eliminar el cliente");
   }
 });
 
