@@ -32,8 +32,8 @@ model Cotizacion {
   id             Int                   @id @default(autoincrement())
   fechaCreacion  DateTime              @default(now())
   diasCotizacion Int
-  clienteId      Int
-  cliente        Cliente               @relation(fields: [clienteId], references: [id])
+  clienteId      Int?
+  cliente        Cliente?              @relation(fields: [clienteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productos      Producto_Cotizacion[]
   total          Float?
   lugarDeEntrega String
