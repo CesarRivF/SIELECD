@@ -12,18 +12,21 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
     subtitle: "Folio #" + datosCotizacion.id,
     headers: [
       {
-        headerColor: "#e5793b",
+        headerColor: "#00AAFF",
         label: "Empresa",
       },
       {
-        headerColor: "#e5793b",
+        headerColor: "#00AAFF",
         label: "Cliente",
       },
     ],
     rows: [
-      ["SIELECD", datosCotizacion.cliente.nombre],
       [
-        "Telefono: 618 495 0695",
+        "SIELECD Servicios de Ingenieria Electrica",
+        datosCotizacion.cliente.nombre,
+      ],
+      [
+        "Telefono: (618) 127 92 02",
         "Telefono: " + datosCotizacion.cliente.telefono,
       ],
       [
@@ -31,7 +34,7 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
         "Domicilio: " + datosCotizacion.cliente.domicilio,
       ],
       [
-        "Correo: sielecd@gmail.com",
+        "Correo: adm.sielecd@gmail.com",
         "Correo: " + datosCotizacion.cliente.correo,
       ],
     ],
@@ -47,15 +50,27 @@ export async function buildTable(datosCotizacion, dataCallback, endCallback) {
 
   doc.y = 125;
 
-  doc.text("Dias de vigencia: " + datosCotizacion.diasCotizacion);
+  doc.text("Dias de Vigencia: " + datosCotizacion.diasCotizacion);
   doc.text(
-    "Fecha de creación: " +
+    "Fecha de Creación: " +
       datosCotizacion.fechaCreacion.toLocaleString("es-ES", {
         day: "2-digit",
         month: "long",
         year: "numeric",
       })
   );
+  if (datosCotizacion.suministroMaterial != null) {
+    doc.text("Suministro de Material: " + datosCotizacion.suministroMaterial);
+  }
+  if (datosCotizacion.porcentajeAnticipo != 0) {
+    doc.text(
+      "Peticion de Anticipo: " +
+        datosCotizacion.porcentajeAnticipo +
+        " % lo que equivale a: $ " +
+        (datosCotizacion.total * datosCotizacion.porcentajeAnticipo) / 100
+    );
+  }
+
   await doc.table(tableClient, {
     columnsSize: [265, 265],
     prepareHeader: () => {

@@ -37,6 +37,8 @@ model Cotizacion {
   productos      Producto_Cotizacion[]
   total          Float?
   lugarDeEntrega String
+  suministroMaterial String?
+  porcentajeAnticipo Float?
 }
 
 // MODELO CLIENTE (3) //
